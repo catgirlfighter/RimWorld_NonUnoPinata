@@ -13,6 +13,22 @@ namespace NonUnoPinata
         {
             var harmony = HarmonyInstance.Create("net.avilmask.rimworld.mod.NonUnoPinata");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+            GetSettings<Settings>();
+        }
+
+        public void Save()
+        {
+            LoadedModManager.GetMod<NonUnoPinata>().GetSettings<Settings>().Write();
+        }
+
+        public override string SettingsCategory()
+        {
+            return "Non Uno Pinata";
+        }
+
+        public override void DoSettingsWindowContents(Rect inRect)
+        {
+            Settings.DoSettingsWindowContents(inRect);
         }
     }
 }

@@ -2,4 +2,7 @@
 <LanguageData>
 	<StripThing>Strip</StripThing>
 	<StripThingCancel>Cancel Strip</StripThingCancel>
+	<strip_apparel>On cremation, unload apparel from the corpse</strip_apparel>
+	<strip_equipment>On cremation, unload equipment from the corpse</strip_equipment>
+	<strip_inventory>On cremation, unload inventory from the corpse</strip_inventory>
 </LanguageData>

@@ -90,15 +90,40 @@ namespace NonUnoPinata
             return true;
         }
 
-        public static void UnmarkAll(Pawn pawn)
+        public static bool MarkAll(Pawn pawn, bool val, int flags = 7)
         {
-            List<Thing> inventory = pawn.inventory == null ? null : pawn.inventory.innerContainer.Where(x => x.TryGetComp<CompStripChecker>() != null && x.TryGetComp<CompStripChecker>().ShouldStrip).ToList();
-            List<ThingWithComps> equipment = pawn.equipment == null ? null : pawn.equipment.AllEquipmentListForReading.Where(x => x.TryGetComp<CompStripChecker>() != null && x.TryGetComp<CompStripChecker>().ShouldStrip).ToList();
-            List<Apparel> apparel = pawn.apparel == null ? null : pawn.apparel.WornApparel.Where(x => x.TryGetComp<CompStripChecker>() != null && x.TryGetComp<CompStripChecker>().ShouldStrip).ToList();
+            //Log.Message($"{pawn},{val},{flags}");
+            bool result = false;
+            if ((flags & 1) == 1)
+            {
+                ThingOwner<Thing> inventory = pawn.inventory == null ? null : pawn.inventory.innerContainer;//.Where(x => x.TryGetComp<CompStripChecker>() != null && x.TryGetComp<CompStripChecker>().ShouldStrip).ToList();
+                if (!inventory.NullOrEmpty())
+                {
+                    result = true;
+                    for (int i = inventory.Count - 1; i >= 0; i--) GetChecker(inventory[i]).ShouldStrip = val;
+                }
+            }
 
-            if (!inventory.NullOrEmpty()) for (int i = inventory.Count - 1; i >= 0; i--) inventory[i].TryGetComp<CompStripChecker>().ShouldStrip = false;
-            if (!equipment.NullOrEmpty()) for (int i = equipment.Count - 1; i >= 0; i--) equipment[i].TryGetComp<CompStripChecker>().ShouldStrip = false;
-            if (!apparel.NullOrEmpty()) for (int i = apparel.Count - 1; i >= 0; i--) apparel[i].TryGetComp<CompStripChecker>().ShouldStrip = false;
+            if ((flags & 2) == 2)
+            {
+                List<ThingWithComps> equipment = pawn.equipment == null ? null : pawn.equipment.AllEquipmentListForReading;//.Where(x => x.TryGetComp<CompStripChecker>() != null && x.TryGetComp<CompStripChecker>().ShouldStrip).ToList();
+                if (!equipment.NullOrEmpty())
+                {
+                    result = true;
+                    for (int i = equipment.Count - 1; i >= 0; i--) GetChecker(equipment[i]).ShouldStrip = val;
+                }
+            }
+
+            if ((flags & 4) == 4)
+            {
+                List<Apparel> apparel = pawn.apparel == null ? null : pawn.apparel.WornApparel;//.Where(x => x.TryGetComp<CompStripChecker>() != null && x.TryGetComp<CompStripChecker>().ShouldStrip).ToList();
+                if (!apparel.NullOrEmpty())
+                {
+                    result = true;
+                    for (int i = apparel.Count - 1; i >= 0; i--) GetChecker(apparel[i]).ShouldStrip = val;
+                }
+            }
+            return result;
         }
     }
 

@@ -22,7 +22,24 @@ namespace NonUnoPinata
                 if (!def.autoStripCorpses)
                 {
                     IStrippable strippable = thing as IStrippable;
-                    return strippable != null && thing.MapHeld != null && thing.MapHeld.designationManager.DesignationOn(thing, DesignationDefOf.Strip) != null;
+                    Corpse corpse = thing as Corpse;
+                    Pawn pawn;
+                    if (corpse == null)
+                        pawn = thing as Pawn;
+                    else
+                        pawn = corpse.InnerPawn;
+                    
+                    int val = 0;
+                    if (pawn != null)
+                    {
+                        if (Settings.strip_inventory) val += 1;
+                        if (Settings.strip_equipment) val += 2;
+                        if (Settings.strip_apparel) val += 4;
+                        if (!CompStripChecker.MarkAll(pawn, true, val))
+                            val = 0;
+                    }
+
+                    return strippable != null && thing.MapHeld != null && (val != 0 || thing.MapHeld.designationManager.DesignationOn(thing, DesignationDefOf.Strip) != null);
                 }
                 else
                     return true;

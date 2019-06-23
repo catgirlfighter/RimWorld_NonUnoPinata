@@ -58,6 +58,7 @@
     <Compile Include="PatchRPG.cs" />
     <Compile Include="PawnPatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="Toils_RecipePatch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
