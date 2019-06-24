@@ -16,7 +16,7 @@ namespace NonUnoPinata
         static MethodBase target;
 
         [HarmonyPatch]
-        static class Pawn_HealthTracker_MakeDowned_NonUnoPinataPatch
+        public static class Pawn_HealthTracker_MakeDowned_NonUnoPinataPatch
         {
             static bool Prepare()
             {
@@ -43,7 +43,17 @@ namespace NonUnoPinata
                         yield return i;
                     yield break;
                 }
+                
+                foreach(var i in instructions)
+                {
+                    if (i.opcode == OpCodes.Callvirt && i.operand == m)
+                        yield return new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(PawnPatch), nameof(PawnPatch.DropOnDown)));
+                    else
+                        yield return i;
+                }
+
                 //
+                /*
                 int ld = -1;
                 int call = -1;
                 List<CodeInstruction> list = instructions.ToList();
@@ -69,6 +79,7 @@ namespace NonUnoPinata
                     yield return list[i];
                 for (int i = call + 1; i < list.Count(); i++)
                     yield return list[i];
+                */
             }
         }
     }
