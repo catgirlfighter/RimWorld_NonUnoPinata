@@ -11,21 +11,21 @@ namespace NonUnoPinata
         {
             static bool Prefix(Designation __instance)
             {
-                return true;
-                /* designation gets removed before stripping is happened, so it doesn't work as intended
+                //return true;
+                // designation gets removed before stripping is happened, so it doesn't work as intended
                 if (__instance.def == DesignationDefOf.Strip && __instance.target.HasThing)
                 {
                     Corpse c = __instance.target.Thing as Corpse;
                     if (c != null)
                     {
                         if(c.InnerPawn != null)
-                            CompStripChecker.UnmarkAll(c.InnerPawn);
+                            CompStripChecker.MarkAll(c.InnerPawn, false);
                     } else
-                        CompStripChecker.UnmarkAll((Pawn)__instance.target.Thing);
+                        CompStripChecker.MarkAll((Pawn)__instance.target.Thing, false);
                     return false;
                 }
                 return true;
-                */
+                
             }
         }
     }

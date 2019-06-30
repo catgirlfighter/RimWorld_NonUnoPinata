@@ -1,3 +1,6 @@
+1.0.2
+- canceling stripping designation now unmarks all items;
+
 1.0.1
 - added new options to drop different things when pawns are downed or killed, with separate options for colonists and outsiders;
 

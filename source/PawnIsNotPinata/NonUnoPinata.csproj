@@ -54,6 +54,7 @@
     <Compile Include="DesignationPatch.cs" />
     <Compile Include="HealthTrackerPatch.cs" />
     <Compile Include="ITab_Pawn_GearPatch.cs" />
+    <Compile Include="JobDriver_StripPatch.cs" />
     <Compile Include="NonUnoPinata.cs" />
     <Compile Include="PatchRPG.cs" />
     <Compile Include="PawnPatch.cs" />
