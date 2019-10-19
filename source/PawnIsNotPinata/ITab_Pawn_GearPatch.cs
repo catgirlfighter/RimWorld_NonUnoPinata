@@ -12,9 +12,11 @@ namespace NonUnoPinata
 {
     class ITab_Pawn_GearPatch
     {
+        /*
         [HarmonyPatch(typeof(ITab_Pawn_Gear), "FillTab")]
         static class ITab_Pawn_FillTab_NonUnoPinataPatch
         {
+            
             public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il, MethodBase mb)
             {
                 MethodInfo m = AccessTools.Method(typeof(ITab_Pawn_Gear), "DrawThingRow");
@@ -41,6 +43,7 @@ namespace NonUnoPinata
                     yield return prev;
             }
         }
+        */
 
         [HarmonyPatch(typeof(ITab_Pawn_Gear), "DrawThingRow")]
         public static class ITab_Pawn_Gear_DrawThingRow_NonUnoPinataPatch
@@ -51,7 +54,7 @@ namespace NonUnoPinata
             {
                 Pawn SelPawnForGear = Traverse.Create(__instance).Property("SelPawnForGear").GetValue<Pawn>();
                 Corpse corpse = SelPawnForGear.Corpse;
-                ThingWithComps holder = corpse == null ? (ThingWithComps)SelPawnForGear : (ThingWithComps)corpse;
+                ThingWithComps holder = corpse == null ? SelPawnForGear : (ThingWithComps)corpse;
                 Rect rect = new Rect(0f, y, width, 28f);
                 if (SelPawnForGear.Downed || corpse != null || SelPawnForGear.IsPrisoner && SelPawnForGear.guest.PrisonerIsSecure)
                 {

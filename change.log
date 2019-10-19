@@ -1,3 +1,6 @@
+1.0.3
+- fixed one little thing that hid drop button from animal inventory;
+
 1.0.2
 - canceling stripping designation now unmarks all items;
 
