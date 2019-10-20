@@ -51,35 +51,6 @@ namespace NonUnoPinata
                     else
                         yield return i;
                 }
-
-                //
-                /*
-                int ld = -1;
-                int call = -1;
-                List<CodeInstruction> list = instructions.ToList();
-                for (int i = 0; i < list.Count(); i++)
-                {
-                    if (list[i].opcode == OpCodes.Ldarg_0) ld = i;
-                    if (list[i].opcode == OpCodes.Callvirt && list[i].operand == m)
-                    {
-                        call = i;
-                        break;
-                    }
-                }
-                //
-                if (ld == -1 || call == -1)
-                {
-                    Log.Error($"Pawn_HealthTracker.MakeDowned: Couldn't find Pawn.DropAndForbidEverything entry");
-                    foreach (var i in instructions)
-                        yield return i;
-                    yield break;
-                }
-                //
-                for (int i = 0; i < ld; i++)
-                    yield return list[i];
-                for (int i = call + 1; i < list.Count(); i++)
-                    yield return list[i];
-                */
             }
         }
     }

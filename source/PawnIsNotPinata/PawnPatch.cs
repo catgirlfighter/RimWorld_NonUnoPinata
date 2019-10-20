@@ -11,9 +11,45 @@ using RimWorld.Planet;
 
 namespace NonUnoPinata
 {
+
     public static class PawnPatch
     {
-        public static void DropOnKill(Pawn pawn, bool keepInventoryAndEquipmentIfInBed)
+        public static void DropUnmarkableNearPawn(Pawn_InventoryTracker inventory, IntVec3 pos, bool forbid = false, bool unforbid = false)
+        {
+            if (inventory.pawn.MapHeld == null)
+            {
+                Log.Error("Tried to drop all inventory near pawn but the pawn is unspawned. pawn=" + inventory.pawn, false);
+                return;
+            }
+            List<Thing> tmpThingList = new List<Thing>();
+            tmpThingList.AddRange(inventory.innerContainer);
+            for (int i = 0; i < tmpThingList.Count; i++)
+            {
+                ThingWithComps twc = tmpThingList[i] as ThingWithComps;
+
+                if (twc != null)
+                    continue;
+
+                Thing thing;
+                inventory.innerContainer.TryDrop(tmpThingList[i], pos, inventory.pawn.MapHeld, ThingPlaceMode.Near, out thing, delegate (Thing t, int unused)
+                {
+                    if (forbid)
+                    {
+                        t.SetForbiddenIfOutsideHomeArea();
+                    }
+                    if (unforbid)
+                    {
+                        t.SetForbidden(false, false);
+                    }
+                    if (t.def.IsPleasureDrug)
+                    {
+                        LessonAutoActivator.TeachOpportunity(ConceptDefOf.DrugBurning, OpportunityType.Important);
+                    }
+                }, null);
+            }
+        }
+
+    public static void DropOnKill(Pawn pawn, bool keepInventoryAndEquipmentIfInBed)
         {
             DropThings(pawn, keepInventoryAndEquipmentIfInBed,true);
         }
@@ -22,7 +58,6 @@ namespace NonUnoPinata
         {
             DropThings(pawn, keepInventoryAndEquipmentIfInBed, false);
         }
-
 
         static void DropThings(Pawn pawn, bool keepInventoryAndEquipmentIfInBed, bool IsAKill)
         {
@@ -36,11 +71,14 @@ namespace NonUnoPinata
                 pawn.equipment.DropAllEquipment(pawn.PositionHeld, true);
             }
             //
-            if (pawn.inventory != null && pawn.inventory.innerContainer.TotalStackCount > 0 
+            if (pawn.inventory != null && pawn.inventory.innerContainer.TotalStackCount > 0
                 && (pawn.IsColonistPlayerControlled && (IsAKill && Settings.player_killed_drop_inventory || !IsAKill && Settings.player_downed_drop_inventory)
                     || (IsAKill && Settings.nonplayer_killed_drop_inventory || !IsAKill && Settings.nonplayer_downed_drop_inventory)))
             {
                 pawn.inventory.DropAllNearPawn(pawn.PositionHeld, true, false);
+            } else
+            {
+                DropUnmarkableNearPawn(pawn.inventory, pawn.PositionHeld, true, false);
             }
         }
 
@@ -65,33 +103,6 @@ namespace NonUnoPinata
                     else
                         yield return i;
                 }
-                /*
-                int ld = -1;
-                int call = -1;
-                List<CodeInstruction> list = instructions.ToList();
-                for (int i = 0; i < list.Count(); i++)
-                {
-                    if (list[i].opcode == OpCodes.Ldarg_0) ld = i;
-                    if (list[i].opcode == OpCodes.Call && list[i].operand == m)
-                    {
-                        call = i;
-                        break;
-                    }
-                }
-                //
-                if (ld == -1 || call == -1)
-                {
-                    Log.Error($"Pawn.Kill: Couldn't find Pawn.DropAndForbidEverything entry");
-                    foreach (var i in instructions)
-                        yield return i;
-                    yield break;
-                }
-                //
-                for (int i = 0; i < ld; i++)
-                    yield return list[i];
-                for (int i = call + 1; i < list.Count(); i++)
-                    yield return list[i];
-                */
             }
         }
 
