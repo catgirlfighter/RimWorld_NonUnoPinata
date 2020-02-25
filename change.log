@@ -1,3 +1,9 @@
+1.0.6
+- fixed items unloading when cremating;
+
+1.0.5
+- udpated for RW 1.1!
+
 1.0.4
 Made an array of fixes:
 - reverted previous patch. It made so "drop item" icon now displayed in corpse inventory;
