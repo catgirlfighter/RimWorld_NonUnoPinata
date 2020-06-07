@@ -1,3 +1,6 @@
+1.0.7
+- officially added Harmony dependency.
+
 1.0.6
 - fixed items unloading when cremating;
 
