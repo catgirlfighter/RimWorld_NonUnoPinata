@@ -39,6 +39,9 @@
       <HintPath>..\..\..\..\..\..\Games\steam\steamapps\workshop\content\294100\2009463077\v1.1\Assemblies\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="0MultiplayerAPI">
+      <HintPath>..\..\..\..\..\..\Games\steam\steamapps\workshop\content\294100\1752864297\1.1\Assemblies\0MultiplayerAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\..\..\..\..\..\Games\steam\steamapps\common\RimWorld\RimWorldWin64_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
@@ -71,6 +74,7 @@
     <Compile Include="Settings.cs" />
     <Compile Include="StaticConstructorOnStartupUtility_Patch.cs" />
     <Compile Include="Toils_RecipePatch.cs" />
+    <Compile Include="Multiplayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

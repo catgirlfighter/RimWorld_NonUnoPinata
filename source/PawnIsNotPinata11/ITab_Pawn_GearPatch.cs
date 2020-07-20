@@ -44,12 +44,7 @@ namespace NonUnoPinata
                         if (Widgets.ButtonImage(rect2, ContentFinder<Texture2D>.Get("UI/Icons/Strip_Thing_Cancel"), hColor))
                         {
                             SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-                            c.ShouldStrip = false;
-                            if (CompStripChecker.getFirstMarked(SelPawnForGear) == null && holder.Map != null)
-                            {
-                                Designation d = holder.Map.designationManager.DesignationOn(holder, DesignationDefOf.Strip);
-                                if (d != null) holder.Map.designationManager.RemoveDesignation(d);
-                            }
+                            SetShouldStrip(false, c, SelPawnForGear, holder);
                         }
                         GUI.color = cl;
                     }
@@ -59,14 +54,38 @@ namespace NonUnoPinata
                         if (Widgets.ButtonImage(rect2, ContentFinder<Texture2D>.Get("UI/Icons/Strip_Thing")))
                         {
                             SoundDefOf.Tick_High.PlayOneShotOnCamera(null);
-                            bool b = CompStripChecker.getFirstMarked(SelPawnForGear) == null && holder.Map.designationManager.DesignationOn(holder, DesignationDefOf.Strip) == null;
-                            c.ShouldStrip = true;
-                            if (b) holder.Map.designationManager.AddDesignation(new Designation(holder, DesignationDefOf.Strip));
+                            SetShouldStrip(true, c, SelPawnForGear, holder);
                         }
                     }
                     width -= 24f;
                 }
                 return true;
+            }
+
+            // Signals the CompStripChecker and toggles the designation if required
+            internal static void SetShouldStrip(bool shouldStrip, CompStripChecker c, Pawn SelPawnForGear, ThingWithComps holder)
+            {
+                // is it not marked yet?
+                if (CompStripChecker.getFirstMarked(SelPawnForGear) == null) {
+                    var designation = holder.Map?.designationManager.DesignationOn(holder, DesignationDefOf.Strip);
+                    bool stripping = designation != null;
+
+                    //                   | - | 🡓 | 🡓 | -
+                    // shouldStrip       | t | f | t | f
+                    // stripping         | t | t | f | f
+                    // AddDesignation    | f | f | t | f
+                    // RemoveDesignation | f | t | f | f
+
+                    if (shouldStrip != stripping) {
+                        if (stripping) {
+                            holder.Map.designationManager.RemoveDesignation(designation);
+                        } else {
+                            holder.Map.designationManager.AddDesignation(new Designation(holder, DesignationDefOf.Strip));
+                        }
+                    }
+                }
+
+                c.ShouldStrip = shouldStrip;
             }
         }
     }
