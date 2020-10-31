@@ -1,2 +1,2 @@
 # RimWorld_NonUnoPinata
-RimWorld - Non uno Pinata mod is a mod for a videogame Rimworld
+https://steamcommunity.com/sharedfiles/filedetails/?id=1778821244
