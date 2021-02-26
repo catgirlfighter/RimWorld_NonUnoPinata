@@ -46,7 +46,7 @@ namespace NonUnoPinata
             }
         }
 
-    public static void DropOnKill(Pawn pawn, bool keepInventoryAndEquipmentIfInBed)
+        public static void DropOnKill(Pawn pawn, bool keepInventoryAndEquipmentIfInBed)
         {
             DropThings(pawn, keepInventoryAndEquipmentIfInBed,true);
         }

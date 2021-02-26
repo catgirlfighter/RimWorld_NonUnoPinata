@@ -1,3 +1,8 @@
+1.1.0
+- downed pawns don't drop weapons on loading the game anymore;
+- after getting carried to the bed, pawns don't drop their weapons due to 0% manipulation until they get to consciousness;
+- added BetterLoading workaround;
+
 1.0.9
 - updated for 1.2;
 
