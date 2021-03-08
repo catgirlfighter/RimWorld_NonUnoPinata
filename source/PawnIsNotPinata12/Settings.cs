@@ -16,6 +16,7 @@ namespace NonUnoPinata
         public static bool nonplayer_downed_drop_inventory = false;
         public static bool nonplayer_killed_drop_equipment = false;
         public static bool nonplayer_killed_drop_inventory = false;
+        public static bool corpse_display_equipment = false;
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
@@ -26,6 +27,7 @@ namespace NonUnoPinata
             listing_Standard.CheckboxLabeled("strip_apparel".Translate(), ref strip_apparel);
             listing_Standard.CheckboxLabeled("strip_equipment".Translate(), ref strip_equipment);
             listing_Standard.CheckboxLabeled("strip_inventory".Translate(), ref strip_inventory);
+            listing_Standard.CheckboxLabeled("corpse_display_equipment".Translate(), ref corpse_display_equipment);
 
             listing_Standard.GapLine();
             listing_Standard.Label("downed".Translate());

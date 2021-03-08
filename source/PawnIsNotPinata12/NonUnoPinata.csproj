@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompStripChecker.cs" />
+    <Compile Include="Patches\PawnRendererPatch.cs" />
     <Compile Include="Patches\Pawn_EquipmentTrackerPatch.cs" />
     <Compile Include="Patches\DesignationPatch.cs" />
     <Compile Include="Patches\Pawn_HealthTrackerPatch.cs" />

@@ -1,3 +1,6 @@
+1.1.1
+- added an option to display weapons over corpses;
+
 1.1.0
 - downed pawns don't drop weapons on loading the game anymore;
 - after getting carried to the bed, pawns don't drop their weapons due to 0% manipulation until they get to consciousness;

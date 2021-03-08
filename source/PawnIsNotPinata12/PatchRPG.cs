@@ -15,7 +15,7 @@ namespace NonUnoPinata
             if ((type = AccessTools.TypeByName("Sandy_Detailed_RPG_GearTab")) != null)
             {
                 var mi = AccessTools.Method(type, "DrawThingRow", null, null);
-                HarmonyMethod hm = new HarmonyMethod(typeof(ITab_Pawn_GearPatch.ITab_Pawn_Gear_DrawThingRow_NonUnoPinataPatch), nameof(ITab_Pawn_GearPatch.ITab_Pawn_Gear_DrawThingRow_NonUnoPinataPatch.Prefix), null);
+                HarmonyMethod hm = new HarmonyMethod(typeof(ITab_Pawn_Gear_DrawThingRow_NonUnoPinataPatch), nameof(ITab_Pawn_Gear_DrawThingRow_NonUnoPinataPatch.Prefix), null);
                 harmonyInstance.Patch(mi, hm, null);
             }
         }
