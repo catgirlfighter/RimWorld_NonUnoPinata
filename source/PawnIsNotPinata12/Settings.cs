@@ -54,6 +54,7 @@ namespace NonUnoPinata
             Scribe_Values.Look(ref strip_apparel, "strip_apparel", false, false);
             Scribe_Values.Look(ref strip_equipment, "strip_equipment", true, false);
             Scribe_Values.Look(ref strip_inventory, "strip_inventory", true, false);
+            Scribe_Values.Look(ref corpse_display_equipment, "corpse_display_equipment", true, false);
 
             Scribe_Values.Look(ref player_downed_drop_equipment, "player_downed_drop_equipment", false, false);
             Scribe_Values.Look(ref player_downed_drop_inventory, "player_downed_drop_inventory", false, false);
