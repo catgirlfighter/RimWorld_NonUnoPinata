@@ -7,7 +7,7 @@ using Verse;
 using Verse.AI;
 
 
-namespace NonUnoPinata
+namespace NonUnoPinata.Patches
 {
     [HarmonyPatch(typeof(Toils_Recipe), "CalculateIngredients")]
     static class Toils_Recipe_CalculateIngredients_NonUnoPinataPatch

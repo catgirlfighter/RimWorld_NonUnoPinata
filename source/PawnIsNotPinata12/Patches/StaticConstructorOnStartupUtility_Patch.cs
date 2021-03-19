@@ -4,9 +4,8 @@ using Verse;
 using HarmonyLib;
 using System.Reflection;
 
-namespace NonUnoPinata
+namespace NonUnoPinata.Patches
 {
-    //[HarmonyPatch(typeof(StaticConstructorOnStartupUtility), "CallAll")]
     [HarmonyPatch]
     static class StaticConstructorOnStartupUtility_CallAll_NonUnoPinataPatch
     {

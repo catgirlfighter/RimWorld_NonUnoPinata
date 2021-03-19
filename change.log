@@ -1,3 +1,7 @@
+1.1.2
+- fixed a bug because of which stripping designation wouldn't cancel upon canceling stripping action on the last item in inventory;
+- added AwesomeInventory compatibility;
+
 1.1.1
 - added an option to display weapons over corpses;
 

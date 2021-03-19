@@ -5,51 +5,46 @@ using RimWorld;
 using Verse;
 using Verse.AI;
 
-namespace NonUnoPinata
+namespace NonUnoPinata.Patches
 {
-    class JobDriver_StripPatch
+    [HarmonyPatch(typeof(JobDriver_Strip), "MakeNewToils")]
+    static class JobDriver_Strip_MakeNewToilsIterator_NonUnoPinataPatch
     {
-        //static MethodBase target;
-
-        [HarmonyPatch(typeof(JobDriver_Strip), "MakeNewToils")]
-        public static class JobDriver_Strip_MakeNewToilsIterator_NonUnoPinataPatch
+        public class JobDriver_StripA: JobDriver_Strip
         {
-            public class JobDriver_StripA: JobDriver_Strip
+            public Map MapA
             {
-                public Map MapA
+                get
                 {
-                    get
-                    {
-                        return Map;
-                    }
+                    return Map;
                 }
             }
+        }
 
-            static void Postfix(JobDriver_StripA __instance, ref IEnumerable<Toil> __result)
+        static void Postfix(JobDriver_StripA __instance, ref IEnumerable<Toil> __result)
+        {
+            Toil t = new Toil
             {
-                Toil t = new Toil
+                initAction = delegate ()
                 {
-                    initAction = delegate ()
+                    Thing thing = __instance.job.targetA.Thing;
+                    IStrippable strippable = thing as IStrippable;
+                    if (strippable != null)
                     {
-                        Thing thing = __instance.job.targetA.Thing;
-                        IStrippable strippable = thing as IStrippable;
-                        if (strippable != null)
-                        {
-                            strippable.Strip();
-                        }
-                        Designation designation = __instance.MapA.designationManager.DesignationOn(thing, DesignationDefOf.Strip);
-                        if (designation != null)
-                        {
-                            designation.Delete();
-                        }
-                        __instance.pawn.records.Increment(RecordDefOf.BodiesStripped);
-                    },
-                    defaultCompleteMode = ToilCompleteMode.Instant
-                };
+                        strippable.Strip();
+                    }
+                    Designation designation = __instance.MapA.designationManager.DesignationOn(thing, DesignationDefOf.Strip);
+                    if (designation != null)
+                    {
+                        designation.Delete();
+                    }
+                    __instance.pawn.records.Increment(RecordDefOf.BodiesStripped);
+                },
+                defaultCompleteMode = ToilCompleteMode.Instant
+            };
 
-                //naive patch
-                __result = __result.Select((x, i) => i == 2 ? t : x);
-            }
+            //naive patch
+            __result = __result.Select((x, i) => i == 2 ? t : x);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using HarmonyLib;
 using RimWorld;
 using Verse;
 
@@ -126,34 +125,6 @@ namespace NonUnoPinata
                 }
             }
             return result;
-        }
-    }
-
-    [HarmonyPatch(typeof(GenDrop), nameof(GenDrop.TryDropSpawn_NewTmp))]
-    static class GenPlace_TryPlaceThing_NonUnoPinataPatch
-    {
-
-        static void Postfix(Thing thing, IntVec3 dropCell, Map map, ThingPlaceMode mode, Thing resultingThing, Action<Thing, int> placedAction, Predicate<IntVec3> nearPlaceValidator)
-        {
-            CompStripChecker UChecker = resultingThing.TryGetComp<CompStripChecker>();
-            if (UChecker != null)
-            {
-                UChecker.ShouldStrip = false;
-            }
-        }
-    }
-
-    [HarmonyPatch(typeof(ThingWithComps), "ExposeData")]
-    static class ThingWithComps_ExposeData_NonUnoPinataPatch
-    {
-        static void Postfix(ThingWithComps __instance)
-        {
-            if (Scribe.mode == LoadSaveMode.LoadingVars)
-            {
-                bool a = false;
-                Scribe_Values.Look(ref a, "NonUnoPinataShouldStrip", defaultValue: false);
-                if (a) CompStripChecker.GetChecker(__instance, a);
-            }
         }
     }
 }

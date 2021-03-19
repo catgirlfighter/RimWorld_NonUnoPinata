@@ -2,7 +2,7 @@
 using HarmonyLib;
 using Verse;
 using RimWorld;
-namespace NonUnoPinata
+namespace NonUnoPinata.Patches
 {
     [HarmonyPatch(typeof(Designation), "Notify_Removing")]
     static class Designation_Notify_Removing_NonUnoPinataPatch

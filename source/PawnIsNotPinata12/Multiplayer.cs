@@ -1,5 +1,4 @@
 using System.Linq;
-
 using Multiplayer.API;
 using Verse;
 
@@ -12,7 +11,7 @@ namespace NonUnoPinata
             if (!MP.enabled) return; // Only runs whenever MP is enabled
 
             // This method is called whenever the user clicks the strip button in the ITab
-            MP.RegisterSyncMethod(typeof(ITab_Pawn_Gear_DrawThingRow_NonUnoPinataPatch), nameof(ITab_Pawn_Gear_DrawThingRow_NonUnoPinataPatch.SetShouldStrip));
+            MP.RegisterSyncMethod(typeof(NUPUtility), nameof(NUPUtility.SetShouldStrip));
 
             // Register the worker that encodes/decodes the CompStripChecker
             MP.RegisterSyncWorker<CompStripChecker>(SyncWorkerForCompStripChecker);
