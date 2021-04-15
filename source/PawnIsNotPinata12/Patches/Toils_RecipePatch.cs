@@ -23,18 +23,16 @@ namespace NonUnoPinata.Patches
                     pawn = thing as Pawn;
                 else
                     pawn = corpse.InnerPawn;
-                    
-                int val = 0;
+
+                StripFlags val = StripFlags.None;
                 if (pawn != null)
                 {
-                    if (Settings.strip_inventory) val += 1;
-                    if (Settings.strip_equipment) val += 2;
-                    if (Settings.strip_apparel) val += 4;
+                    val = Settings.getStripFlags();
                     if (!CompStripChecker.MarkAll(pawn, true, val))
-                        val = 0;
+                        val = StripFlags.None;
                 }
 
-                return strippable != null && thing.MapHeld != null && (val != 0 || thing.MapHeld.designationManager.DesignationOn(thing, DesignationDefOf.Strip) != null);
+                return strippable != null && thing.MapHeld != null && (val != StripFlags.None || thing.MapHeld.designationManager.DesignationOn(thing, DesignationDefOf.Strip) != null);
             }
             else
                 return true;

@@ -7,9 +7,22 @@ using Verse;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse.Sound;
+using System;
 
 namespace NonUnoPinata
 {
+    [Flags]
+    public enum StripFlags
+    {
+        None = 0,
+        Inventory = 1,
+        Equipment = 2,
+        Apparel = 4,
+        Smeltable = 8,
+        Untainted = 16,
+        Unburnable = 32
+    }
+
     public static class NUPUtility
     {
         public static void DropUnmarkableNearPawn(Pawn_InventoryTracker inventory, IntVec3 pos, bool forbid = false, bool unforbid = false)

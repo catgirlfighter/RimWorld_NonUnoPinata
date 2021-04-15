@@ -86,44 +86,56 @@ namespace NonUnoPinata
             return true;
         }
 
-        public static bool MarkAll(Pawn pawn, bool val, int flags = 7)
+        static bool flagMark(ThingWithComps thing, StripFlags crossFlags, StripFlags stripFlags)
+        {
+            //Log.Message($"thing={thing},eq={crossFlags.HasFlag(StripFlags.Equipment)},unb={stripFlags.HasFlag(StripFlags.Unburnable)},stuff={thing.Stuff != null},burn={thing.Stuff?.burnableByRecipe}");
+            if (thing == null || crossFlags.HasFlag(StripFlags.Equipment) && !stripFlags.HasFlag(StripFlags.Unburnable) && thing.Stuff != null && !thing.Stuff.burnableByRecipe)
+                return false;
+            //
+            //Log.Message($"strip_inv={stripFlags.HasFlag(StripFlags.Inventory)}, cross_inv={crossFlags.HasFlag(StripFlags.Inventory)}");
+            //Log.Message($"strip_eq={stripFlags.HasFlag(StripFlags.Equipment)}, cross_eq={crossFlags.HasFlag(StripFlags.Equipment)}");
+            //Log.Message($"strip_ap={stripFlags.HasFlag(StripFlags.Apparel)},cross_ap={crossFlags.HasFlag(StripFlags.Apparel)},strip_un={stripFlags.HasFlag(StripFlags.Untainted)}, thing={thing.def.IsApparel}");
+            //Log.Message($"strip_sm={stripFlags.HasFlag(StripFlags.Smeltable)},cross_inv_eq={crossFlags.HasFlag(StripFlags.Inventory | StripFlags.Equipment)}, sm={thing.Smeltable}");
+            if (stripFlags.HasFlag(StripFlags.Inventory) && crossFlags.HasFlag(StripFlags.Inventory)
+                || stripFlags.HasFlag(StripFlags.Equipment) && crossFlags.HasFlag(StripFlags.Equipment)
+                || stripFlags.HasFlag(StripFlags.Apparel) && crossFlags.HasFlag(StripFlags.Apparel) && (!stripFlags.HasFlag(StripFlags.Untainted) || !thing.def.IsApparel || !((Apparel)thing).WornByCorpse)
+                || stripFlags.HasFlag(StripFlags.Smeltable) && (crossFlags.HasFlag(StripFlags.Inventory) || crossFlags.HasFlag(StripFlags.Equipment)) && thing.Smeltable)
+                return true;
+            //
+            return false;
+        }
+
+        public static bool MarkAll(Pawn pawn, bool val, StripFlags flags = StripFlags.Apparel | StripFlags.Equipment | StripFlags.Inventory)
         {
             bool result = false;
-            if ((flags & 1) == 1)
-            {
-                ThingOwner<Thing> inventory = pawn.inventory == null ? null : pawn.inventory.innerContainer;
-                if (!inventory.NullOrEmpty())
-                {
-                    result = true;
-                    for (int i = inventory.Count - 1; i >= 0; i--)
-                        if (inventory[i] is ThingWithComps)
-                            GetChecker(inventory[i]).ShouldStrip = val;
-                }
-            }
 
-            if ((flags & 2) == 2)
-            {
-                List<ThingWithComps> equipment = pawn.equipment == null ? null : pawn.equipment.AllEquipmentListForReading;
-                if (!equipment.NullOrEmpty())
-                {
-                    result = true;
-                    for (int i = equipment.Count - 1; i >= 0; i--)
-                        if(equipment[i] is ThingWithComps)
-                            GetChecker(equipment[i]).ShouldStrip = val;
-                }
-            }
-
-            if ((flags & 4) == 4)
-            {
-                List<Apparel> apparel = pawn.apparel == null ? null : pawn.apparel.WornApparel;
-                if (!apparel.NullOrEmpty())
-                {
-                    result = true;
-                    for (int i = apparel.Count - 1; i >= 0; i--)
-                        if(apparel[i] is ThingWithComps)
-                            GetChecker(apparel[i]).ShouldStrip = val;
-                }
-            }
+            ThingOwner<Thing> inventory = pawn.inventory == null ? null : pawn.inventory.innerContainer;
+            if (!inventory.NullOrEmpty())
+                foreach (var t in inventory)
+                    if (flagMark(t as ThingWithComps, StripFlags.Inventory, flags))
+                    {
+                        result |= true;
+                        GetChecker(t).ShouldStrip = val;
+                    }
+            //
+            List<ThingWithComps> equipment = pawn.equipment == null ? null : pawn.equipment.AllEquipmentListForReading;
+            if (!equipment.NullOrEmpty())
+                foreach (var t in equipment)
+                    if (flagMark(t as ThingWithComps, StripFlags.Equipment, flags))
+                    {
+                        result |= true;
+                        GetChecker(t).ShouldStrip = val;
+                    }
+            //
+            List<Apparel> apparel = pawn.apparel == null ? null : pawn.apparel.WornApparel;
+            if (!equipment.NullOrEmpty())
+                foreach (var t in apparel)
+                    if (flagMark(t as ThingWithComps, StripFlags.Apparel, flags))
+                    {
+                        result |= true;
+                        GetChecker(t).ShouldStrip = val;
+                    }
+            //
             return result;
         }
     }
