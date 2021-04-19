@@ -99,7 +99,7 @@ namespace NonUnoPinata
             if (stripFlags.HasFlag(StripFlags.Inventory) && crossFlags.HasFlag(StripFlags.Inventory)
                 || stripFlags.HasFlag(StripFlags.Equipment) && crossFlags.HasFlag(StripFlags.Equipment)
                 || stripFlags.HasFlag(StripFlags.Apparel) && crossFlags.HasFlag(StripFlags.Apparel) && (!stripFlags.HasFlag(StripFlags.Untainted) || !thing.def.IsApparel || !((Apparel)thing).WornByCorpse)
-                || stripFlags.HasFlag(StripFlags.Smeltable) && (crossFlags.HasFlag(StripFlags.Inventory) || crossFlags.HasFlag(StripFlags.Equipment)) && thing.Smeltable)
+                || stripFlags.HasFlag(StripFlags.Smeltable) && (crossFlags.HasFlag(StripFlags.Equipment) || crossFlags.HasFlag(StripFlags.Apparel)) && thing.Smeltable)
                 return true;
             //
             return false;
