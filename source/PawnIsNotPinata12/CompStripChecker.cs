@@ -81,21 +81,15 @@ namespace NonUnoPinata
                 for (int i = apparel.Count - 1; i >= 0; i--)
                 {
                     Apparel derp;
-                    pawn.apparel.TryDrop(apparel[i], out derp, pos);
+                    pawn.apparel.TryDrop(apparel[i], out derp, pos, false);
                 }
             return true;
         }
 
         static bool flagMark(ThingWithComps thing, StripFlags crossFlags, StripFlags stripFlags)
         {
-            //Log.Message($"thing={thing},eq={crossFlags.HasFlag(StripFlags.Equipment)},unb={stripFlags.HasFlag(StripFlags.Unburnable)},stuff={thing.Stuff != null},burn={thing.Stuff?.burnableByRecipe}");
             if (thing == null || crossFlags.HasFlag(StripFlags.Equipment) && !stripFlags.HasFlag(StripFlags.Unburnable) && thing.Stuff != null && !thing.Stuff.burnableByRecipe)
                 return false;
-            //
-            //Log.Message($"strip_inv={stripFlags.HasFlag(StripFlags.Inventory)}, cross_inv={crossFlags.HasFlag(StripFlags.Inventory)}");
-            //Log.Message($"strip_eq={stripFlags.HasFlag(StripFlags.Equipment)}, cross_eq={crossFlags.HasFlag(StripFlags.Equipment)}");
-            //Log.Message($"strip_ap={stripFlags.HasFlag(StripFlags.Apparel)},cross_ap={crossFlags.HasFlag(StripFlags.Apparel)},strip_un={stripFlags.HasFlag(StripFlags.Untainted)}, thing={thing.def.IsApparel}");
-            //Log.Message($"strip_sm={stripFlags.HasFlag(StripFlags.Smeltable)},cross_inv_eq={crossFlags.HasFlag(StripFlags.Inventory | StripFlags.Equipment)}, sm={thing.Smeltable}");
             if (stripFlags.HasFlag(StripFlags.Inventory) && crossFlags.HasFlag(StripFlags.Inventory)
                 || stripFlags.HasFlag(StripFlags.Equipment) && crossFlags.HasFlag(StripFlags.Equipment)
                 || stripFlags.HasFlag(StripFlags.Apparel) && crossFlags.HasFlag(StripFlags.Apparel) && (!stripFlags.HasFlag(StripFlags.Untainted) || !thing.def.IsApparel || !((Apparel)thing).WornByCorpse)

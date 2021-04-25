@@ -102,7 +102,9 @@ namespace NonUnoPinata
 
             inventory = inventory && corpse == null;
 
-            if (pawn.Downed || corpse != null || pawn.IsPrisoner && pawn.guest.PrisonerIsSecure)
+            //if (pawn.Downed || corpse != null || pawn.IsPrisoner && pawn.guest.PrisonerIsSecure)
+            //if(StrippableUtility.CanBeStrippedByColony(pawn))
+            if (corpse != null || StrippableUtility.CanBeStrippedByColony(pawn))
             {
                 CompStripChecker c = CompStripChecker.GetChecker(thing, false);
                 if (c == null)

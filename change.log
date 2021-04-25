@@ -1,3 +1,9 @@
+1.1.6
+- fixed ability to mark for stripping downed quest pawns. Colonists wouldn't strip them anyway, but still;
+
+1.1.5
+- stripped apparel is no longer forbidden. I was sure I changed it already, sorry!
+
 1.1.4
 - fixed a bug due to which "strip smeltable apparel and equipment" stripped equipment and invetory instead;
 
