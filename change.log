@@ -1,5 +1,6 @@
 1.1.7
 - herpderp 1.3;
+- fixed weapon drawing over corpse;
 
 1.1.6
 - fixed ability to mark for stripping downed quest pawns. Colonists wouldn't strip them anyway, but still;
