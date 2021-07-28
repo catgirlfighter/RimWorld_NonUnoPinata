@@ -21,6 +21,7 @@ namespace NonUnoPinata.Patches
             }
         }
 
+        //in vanilla it deletes designation first and then strips, we need it other way around
         static void Postfix(JobDriver_StripA __instance, ref IEnumerable<Toil> __result)
         {
             Toil t = new Toil

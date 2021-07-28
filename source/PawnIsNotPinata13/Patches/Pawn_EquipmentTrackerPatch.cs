@@ -3,10 +3,24 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 using Verse;
+using RimWorld;
 
 
 namespace NonUnoPinata.Patches
 {
+    static class Pawn_EquipmentTracker_NonUnoPinata_Events
+    {
+        public static void Notify_EquipmentChanged(this Pawn_EquipmentTracker tracker)
+        {
+            LongEventHandler.ExecuteWhenFinished(delegate
+            {
+                tracker.pawn.Drawer.renderer.graphics.SetApparelGraphicsDirty();
+                PortraitsCache.SetDirty(tracker.pawn);
+                GlobalTextureAtlasManager.TryMarkPawnFrameSetDirty(tracker.pawn);
+            });
+        }
+    }
+
     [HarmonyPatch(typeof(Pawn_EquipmentTracker), "Notify_PawnSpawned")]
     static class Pawn_EquipmentTracker_Notify_PawnSpawned_NonUnoPinataPatch
     {
@@ -34,6 +48,24 @@ namespace NonUnoPinata.Patches
                     yield return new CodeInstruction(OpCodes.Brfalse_S, i.operand);
                 }
             }
+        }
+    }
+
+    [HarmonyPatch(typeof(Pawn_EquipmentTracker), "Notify_EquipmentAdded")]
+    static class Pawn_EquipmentTracker_Notify_EquipmentAdded_NonUnoPinataPatch
+    {
+        static void Prefix(Pawn_EquipmentTracker __instance)
+        {
+            __instance.Notify_EquipmentChanged();
+        }
+    }
+
+    [HarmonyPatch(typeof(Pawn_EquipmentTracker), "Notify_EquipmentRemoved")]
+    static class Pawn_EquipmentTracker_Notify_EquipmentRemoved_NonUnoPinataPatch
+    {
+        static void Prefix(Pawn_EquipmentTracker __instance)
+        {
+            __instance.Notify_EquipmentChanged();
         }
     }
 }

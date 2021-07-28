@@ -9,7 +9,6 @@ namespace NonUnoPinata.Patches
     {
         static bool Prefix(Designation __instance)
         {
-            //return true;
             // designation gets removed before stripping is happened, so it doesn't work as intended
             if (__instance.def == DesignationDefOf.Strip && __instance.target.HasThing)
             {

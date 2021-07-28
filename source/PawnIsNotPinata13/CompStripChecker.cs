@@ -83,6 +83,10 @@ namespace NonUnoPinata
                     Apparel derp;
                     pawn.apparel.TryDrop(apparel[i], out derp, pos, false);
                 }
+
+            if (pawn.Faction != null)
+                pawn.Faction.Notify_MemberStripped(pawn, Faction.OfPlayer);
+
             return true;
         }
 

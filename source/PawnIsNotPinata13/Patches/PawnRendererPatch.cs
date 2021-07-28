@@ -15,7 +15,7 @@ namespace NonUnoPinata.Patches
     [HarmonyPatch(typeof(PawnRenderer), "RenderPawnInternal", new Type[] { typeof(Vector3), typeof(float), typeof(bool), typeof(Rot4), typeof(RotDrawMode), typeof(PawnRenderFlags) })]
     static class PawnRenderer_RenderPawnInternal_NonUnoPinataPatch
     {
-        static void renderStaticEquipment(Pawn pawn, /*Mesh mesh,*/ Rot4 bodyFacing, Vector3 vector, Quaternion quaternion, PawnRenderFlags flags)
+        static void renderStaticEquipment(Pawn pawn, Rot4 bodyFacing, Vector3 vector, Quaternion quaternion, PawnRenderFlags flags)
         {
             if (!Settings.corpse_display_equipment || flags.FlagSet(PawnRenderFlags.Portrait) || !pawn.Dead || pawn.Spawned || pawn.equipment == null || pawn.equipment.Primary == null) return;
             var eq = pawn.equipment.Primary;
@@ -31,34 +31,23 @@ namespace NonUnoPinata.Patches
             Vector3 ax = Vector3.up;
             quaternion.ToAngleAxis(out an, out ax);
             GenDraw.DrawMeshNowOrLater(MeshPool.plane10, vector + quaternion * new Vector3(0, 0, -0.22f) + new Vector3(0f, 0.0367346928f, 0f), Quaternion.AngleAxis(-45f - (an - 180f) * 0.2f + offset, Vector3.up), matSingle, flags.FlagSet(PawnRenderFlags.DrawNow));
-            //Graphics.DrawMesh(MeshPool.plane10, vector + quaternion * new Vector3(0, 0, -0.22f) + new Vector3(0f, 0.0367346928f, 0f), Quaternion.AngleAxis(-45f - (an - 180f) * 0.2f + offset, Vector3.up), matSingle, 0);
         }
 
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il, MethodBase mb)
         {
             List<CodeInstruction> l = instructions.ToList();
             object label = null;
-            //byte stage = 0;
             MethodInfo LrenderStaticEquipment = AccessTools.Method(typeof(PawnRenderer_RenderPawnInternal_NonUnoPinataPatch), nameof(PawnRenderer_RenderPawnInternal_NonUnoPinataPatch.renderStaticEquipment));
             FieldInfo Lpawn = AccessTools.Field(typeof(PawnRenderer), "pawn");
 
             for (int i = 0; i < l.Count; i++)
             {
-                //if (l[i].opcode == OpCodes.Brfalse && l[i - 1].opcode == OpCodes.Ldarg_3)
-                //    if (stage == 0)
-                //        stage += 1;
-                //    else
-                //    {
-                //        stage += 1;
-                //        label = l[i].operand;
-                //   }
                 if (l[i].opcode == OpCodes.Brfalse_S && l[i - 1].opcode == OpCodes.Ldarg_3)
                     label = l[i].operand;
-                else if (/*stage == 2 && */label != null && l[i].labels.Contains((Label)label))
+                else if (label != null && l[i].labels.Contains((Label)label))
                 {
                     yield return new CodeInstruction(OpCodes.Ldarg_0);
                     yield return new CodeInstruction(OpCodes.Ldfld, Lpawn);
-                    //yield return new CodeInstruction(OpCodes.Ldloc_1);
                     yield return new CodeInstruction(OpCodes.Ldarg_S, (byte)4);
                     yield return new CodeInstruction(OpCodes.Ldloc_2);
                     yield return new CodeInstruction(OpCodes.Ldloc_0);
