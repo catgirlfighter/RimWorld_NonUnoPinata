@@ -1,16 +1,20 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using HarmonyLib;
 using RimWorld;
 using Verse;
-using RimWorld.Planet;
 using UnityEngine;
 using Verse.Sound;
 using System;
+using Verse.AI;
 
 namespace NonUnoPinata
 {
+    [DefOf]
+    public static class NonUnoPinataDefOf
+    {
+        public static DutyDef NonUnoPinata_StripDuelEquipment;
+        public static JobDef NonUnoPinata_StripEquipment;
+    }
+
     [Flags]
     public enum StripFlags
     {
@@ -62,6 +66,7 @@ namespace NonUnoPinata
 
         public static void DropOnKill(Pawn pawn, bool keepInventoryAndEquipmentIfInBed)
         {
+            //Log.Message($"{pawn}, {keepInventoryAndEquipmentIfInBed}");
             DropThings(pawn, keepInventoryAndEquipmentIfInBed, true);
         }
 
@@ -72,12 +77,14 @@ namespace NonUnoPinata
 
         public static void DropThings(Pawn pawn, bool keepInventoryAndEquipmentIfInBed, bool IsAKill)
         {
+            //Log.Message($"{pawn}, {keepInventoryAndEquipmentIfInBed}, {pawn.CurJob}, {pawn.mindState.duty?.def}");
             if (pawn.kindDef.destroyGearOnDrop || pawn.InContainerEnclosed || keepInventoryAndEquipmentIfInBed && pawn.InBed())
                 pawn.DropAndForbidEverything(keepInventoryAndEquipmentIfInBed);
             //
+            //LordJob_Ritual lr;
             if (pawn.equipment != null
                 && (pawn.IsColonistPlayerControlled && (IsAKill && Settings.player_killed_drop_equipment || !IsAKill && Settings.player_downed_drop_equipment)
-                    || (IsAKill && Settings.nonplayer_killed_drop_equipment || !IsAKill && Settings.nonplayer_downed_drop_equipment)))
+                    || (IsAKill && (Settings.nonplayer_killed_drop_equipment/* || pawn.health != null && pawn.health.killedByRitual*/) || !IsAKill && (Settings.nonplayer_downed_drop_equipment/* || (lr = pawn.GetLord()?.LordJob as LordJob_Ritual) != null*/))))
             {
                 pawn.equipment.DropAllEquipment(pawn.PositionHeld, true);
             }

@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CompStripChecker.cs" />
+    <Compile Include="JobDriver_StripEquipment.cs" />
+    <Compile Include="JobGiver_StripDuelEquipment.cs" />
     <Compile Include="NUPUtility.cs" />
     <Compile Include="Patches\GenDropPatch.cs" />
     <Compile Include="Patches\PawnRendererPatch.cs" />
