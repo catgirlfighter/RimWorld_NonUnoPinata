@@ -77,21 +77,19 @@ namespace NonUnoPinata
 
         public static void DropThings(Pawn pawn, bool keepInventoryAndEquipmentIfInBed, bool IsAKill)
         {
-            //Log.Message($"{pawn}, {keepInventoryAndEquipmentIfInBed}, {pawn.CurJob}, {pawn.mindState.duty?.def}");
             if (pawn.kindDef.destroyGearOnDrop || pawn.InContainerEnclosed || keepInventoryAndEquipmentIfInBed && pawn.InBed())
                 pawn.DropAndForbidEverything(keepInventoryAndEquipmentIfInBed);
             //
-            //LordJob_Ritual lr;
             if (pawn.equipment != null
                 && (pawn.IsColonistPlayerControlled && (IsAKill && Settings.player_killed_drop_equipment || !IsAKill && Settings.player_downed_drop_equipment)
-                    || (IsAKill && (Settings.nonplayer_killed_drop_equipment/* || pawn.health != null && pawn.health.killedByRitual*/) || !IsAKill && (Settings.nonplayer_downed_drop_equipment/* || (lr = pawn.GetLord()?.LordJob as LordJob_Ritual) != null*/))))
+                || !pawn.IsColonistPlayerControlled && (IsAKill && (Settings.nonplayer_killed_drop_equipment) || !IsAKill && (Settings.nonplayer_downed_drop_equipment))))
             {
                 pawn.equipment.DropAllEquipment(pawn.PositionHeld, true);
             }
             //
             if (pawn.inventory != null && pawn.inventory.innerContainer.TotalStackCount > 0
                 && (pawn.IsColonistPlayerControlled && (IsAKill && Settings.player_killed_drop_inventory || !IsAKill && Settings.player_downed_drop_inventory)
-                    || (IsAKill && Settings.nonplayer_killed_drop_inventory || !IsAKill && Settings.nonplayer_downed_drop_inventory)))
+                || !pawn.IsColonistPlayerControlled && (IsAKill && Settings.nonplayer_killed_drop_inventory || !IsAKill && Settings.nonplayer_downed_drop_inventory)))
             {
                 pawn.inventory.DropAllNearPawn(pawn.PositionHeld, true, false);
             }
@@ -109,8 +107,6 @@ namespace NonUnoPinata
 
             inventory = inventory && corpse == null;
 
-            //if (pawn.Downed || corpse != null || pawn.IsPrisoner && pawn.guest.PrisonerIsSecure)
-            //if(StrippableUtility.CanBeStrippedByColony(pawn))
             if (corpse != null || StrippableUtility.CanBeStrippedByColony(pawn))
             {
                 CompStripChecker c = CompStripChecker.GetChecker(thing, false);

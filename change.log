@@ -1,5 +1,8 @@
+1.1.10
+- fixed a problem when COLONISTS would drop items if options set to drop items for OUTSIDERS;
+
 1.1.9
-- added an action to strip downed or dead duelists as a part of duel ritual;
+- added an action to remove weapons from downed or dead duelists as a part of duel ritual;
 
 1.1.8
 - added a penalty to stripping incapacitated friendly faction members (lack of it wasn't intended);
