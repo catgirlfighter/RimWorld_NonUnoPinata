@@ -77,8 +77,11 @@ namespace NonUnoPinata
 
         public static void DropThings(Pawn pawn, bool keepInventoryAndEquipmentIfInBed, bool IsAKill)
         {
-            if (pawn.kindDef.destroyGearOnDrop || pawn.InContainerEnclosed || keepInventoryAndEquipmentIfInBed && pawn.InBed())
+            if (pawn.kindDef.destroyGearOnDrop || pawn.InContainerEnclosed || !pawn.SpawnedOrAnyParentSpawned || keepInventoryAndEquipmentIfInBed && pawn.InBed())
                 pawn.DropAndForbidEverything(keepInventoryAndEquipmentIfInBed);
+            //
+            if (pawn.carryTracker?.CarriedThing != null)
+                pawn.carryTracker.TryDropCarriedThing(pawn.PositionHeld, ThingPlaceMode.Near, out Thing carriedThing);
             //
             if (pawn.equipment != null
                 && (pawn.IsColonistPlayerControlled && (IsAKill && Settings.player_killed_drop_equipment || !IsAKill && Settings.player_downed_drop_equipment)
