@@ -126,7 +126,7 @@ namespace NonUnoPinata
                     }
             //
             List<Apparel> apparel = pawn.apparel == null ? null : pawn.apparel.WornApparel;
-            if (!equipment.NullOrEmpty())
+            if (!apparel.NullOrEmpty())
                 foreach (var t in apparel)
                     if (flagMark(t as ThingWithComps, StripFlags.Apparel, flags))
                     {

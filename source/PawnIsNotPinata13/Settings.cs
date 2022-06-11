@@ -39,6 +39,7 @@ namespace NonUnoPinata
         {
             Listing_Standard listing_Standard = new Listing_Standard();
             listing_Standard.Begin(inRect);
+            listing_Standard.CheckboxLabeled("corpse_display_equipment".Translate(), ref corpse_display_equipment, "");
             listing_Standard.Label("cremated".Translate());
             listing_Standard.Label("strip_designated".Translate());
             listing_Standard.CheckboxLabeled("allow_cremate_nonburnable".Translate(), ref allow_cremate_nonburnable, "");
@@ -48,8 +49,6 @@ namespace NonUnoPinata
             listing_Standard.CheckboxLabeled("strip_equipment".Translate(), ref strip_equipment, "");
             listing_Standard.CheckboxLabeled("strip_smeltable".Translate(), ref strip_smeltable, "");
             listing_Standard.CheckboxLabeled("strip_inventory".Translate(), ref strip_inventory, "");
-
-            listing_Standard.CheckboxLabeled("corpse_display_equipment".Translate(), ref corpse_display_equipment, "");
 
             listing_Standard.GapLine();
             listing_Standard.Label("downed".Translate());

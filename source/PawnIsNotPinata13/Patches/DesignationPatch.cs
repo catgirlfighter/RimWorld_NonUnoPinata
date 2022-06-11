@@ -5,9 +5,9 @@ using RimWorld;
 namespace NonUnoPinata.Patches
 {
     [HarmonyPatch(typeof(Designation), "Notify_Removing")]
-    static class Designation_Notify_Removing_NonUnoPinataPatch
+    public static class Designation_Notify_Removing_NonUnoPinataPatch
     {
-        static bool Prefix(Designation __instance)
+        public static bool Prefix(Designation __instance)
         {
             // designation gets removed before stripping is happened, so it doesn't work as intended
             if (__instance.def == DesignationDefOf.Strip && __instance.target.HasThing)

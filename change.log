@@ -1,3 +1,6 @@
+1.1.12
+- fixed a bug due to which cremation options for apparel wouldn't work if cremated doesn't wear a weapon;
+
 1.1.11
 - fixed a problem with  things that pawns hold in hands getting destroyed when pawn is downed or killed (thanks Kopp and possibly other people that reported it and I forgot);
 

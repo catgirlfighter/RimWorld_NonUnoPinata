@@ -66,7 +66,6 @@ namespace NonUnoPinata
 
         public static void DropOnKill(Pawn pawn, bool keepInventoryAndEquipmentIfInBed)
         {
-            //Log.Message($"{pawn}, {keepInventoryAndEquipmentIfInBed}");
             DropThings(pawn, keepInventoryAndEquipmentIfInBed, true);
         }
 
