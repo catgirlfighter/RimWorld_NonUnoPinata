@@ -23,7 +23,7 @@ namespace NonUnoPinata.Patches
             return LCallAll;
         }
         //
-        static void Postfix()
+        internal static void Postfix()
         {
             List<ThingDef> list = DefDatabase<ThingDef>.AllDefsListForReading;
                 

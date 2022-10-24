@@ -11,7 +11,7 @@ namespace NonUnoPinata.Patches
     [HarmonyPatch(typeof(Pawn), "Kill")]
     static class Pawn_Kill_NonUnoPinataPatch
     {
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il, MethodBase mb)
+        internal  static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il, MethodBase mb)
         {
             MethodInfo m = AccessTools.Method(typeof(Pawn), "DropAndForbidEverything");
             if (m == null)
@@ -35,7 +35,7 @@ namespace NonUnoPinata.Patches
     [HarmonyPatch(typeof(Pawn), "Strip")]
     static class Pawn_Strip_NonUnoPinataPatch
     {
-        static bool Prefix(Pawn __instance)
+        internal static bool Prefix(Pawn __instance)
         {             
             return __instance.GetCaravan() != null || !CompStripChecker.TryDropMarked(__instance);
         }

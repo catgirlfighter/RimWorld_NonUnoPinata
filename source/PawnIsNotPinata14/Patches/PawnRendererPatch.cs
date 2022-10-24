@@ -39,13 +39,14 @@ namespace NonUnoPinata.Patches
             object label = null;
             MethodInfo LrenderStaticEquipment = AccessTools.Method(typeof(PawnRenderer_RenderPawnInternal_NonUnoPinataPatch), nameof(PawnRenderer_RenderPawnInternal_NonUnoPinataPatch.renderStaticEquipment));
             FieldInfo Lpawn = AccessTools.Field(typeof(PawnRenderer), "pawn");
-
+            bool b = false;
             for (int i = 0; i < l.Count; i++)
             {
-                if (l[i].opcode == OpCodes.Brfalse_S && l[i - 1].opcode == OpCodes.Ldarg_3)
+                if ((l[i].opcode == OpCodes.Brfalse_S || l[i].opcode == OpCodes.Brfalse) && l[i - 1].opcode == OpCodes.Ldarg_3)
                     label = l[i].operand;
                 else if (label != null && l[i].labels.Contains((Label)label))
                 {
+                    b = true;
                     yield return new CodeInstruction(OpCodes.Ldarg_0);
                     yield return new CodeInstruction(OpCodes.Ldfld, Lpawn);
                     yield return new CodeInstruction(OpCodes.Ldarg_S, (byte)4);
@@ -56,6 +57,7 @@ namespace NonUnoPinata.Patches
                 }
                 yield return l[i];
             }
+            if (!b) Log.Error("Couldn't patch PawnRenderer.RenderPawnInternal");
         }
     }
 }

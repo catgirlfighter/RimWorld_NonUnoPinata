@@ -38,7 +38,7 @@ namespace NonUnoPinata.Patches
                 return true;
         }
 
-        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il, MethodBase mb)
+        internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il, MethodBase mb)
         {
             FieldInfo f = AccessTools.Field(typeof(RecipeDef), "autoStripCorpses");
             foreach (var i in instructions)

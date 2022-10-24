@@ -6,7 +6,7 @@ namespace NonUnoPinata.Patches
     [HarmonyPatch(typeof(ThingWithComps), "ExposeData")]
     static class ThingWithComps_ExposeData_NonUnoPinataPatch
     {
-        static void Postfix(ThingWithComps __instance)
+        internal static void Postfix(ThingWithComps __instance)
         {
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {

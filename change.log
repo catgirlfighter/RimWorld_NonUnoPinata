@@ -1,3 +1,8 @@
+1.1.14
+- fixed error trying to mark items to be stripped on a pawn/corpse being hauled;
+- fixed pawns dropping items when put to bed;
+- fixed weapons showing on corpses;
+
 1.1.13
 - hurrah 1.4;
 

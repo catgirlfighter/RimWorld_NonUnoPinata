@@ -37,7 +37,6 @@ namespace NonUnoPinata.Patches
                     yield return i;
                 yield break;
             }
-
             foreach (var i in instructions)
             {
                 if (i.opcode == OpCodes.Callvirt && (MethodInfo)i.operand == m)

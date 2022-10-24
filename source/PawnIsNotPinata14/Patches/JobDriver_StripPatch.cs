@@ -10,19 +10,9 @@ namespace NonUnoPinata.Patches
     [HarmonyPatch(typeof(JobDriver_Strip), "MakeNewToils")]
     static class JobDriver_Strip_MakeNewToilsIterator_NonUnoPinataPatch
     {
-        public class JobDriver_StripA: JobDriver_Strip
-        {
-            public Map MapA
-            {
-                get
-                {
-                    return Map;
-                }
-            }
-        }
 
         //in vanilla it deletes designation first and then strips, we need it other way around
-        static void Postfix(JobDriver_StripA __instance, ref IEnumerable<Toil> __result)
+        internal static void Postfix(JobDriver_Strip __instance, ref IEnumerable<Toil> __result)
         {
             Toil t = new Toil
             {
@@ -34,7 +24,7 @@ namespace NonUnoPinata.Patches
                     {
                         strippable.Strip();
                     }
-                    Designation designation = __instance.MapA.designationManager.DesignationOn(thing, DesignationDefOf.Strip);
+                    Designation designation = __instance.pawn.MapHeld.designationManager.DesignationOn(thing, DesignationDefOf.Strip);
                     if (designation != null)
                     {
                         designation.Delete();

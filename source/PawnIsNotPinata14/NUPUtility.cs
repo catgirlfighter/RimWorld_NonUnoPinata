@@ -157,7 +157,9 @@ namespace NonUnoPinata
             // is it not marked yet?
             if (CompStripChecker.getFirstMarked(pawn) == null)
             {
-                var designation = holder.Map?.designationManager.DesignationOn(holder, DesignationDefOf.Strip);
+                var designator = Find.ReverseDesignatorDatabase.AllDesignators.FirstOrDefault(x => x is Designator_Strip);
+                if (designator == null) return;
+                var designation = designator.Map.designationManager.DesignationOn(holder, DesignationDefOf.Strip);
                 bool stripping = designation != null;
 
                 //                   | - | 🡓 | 🡓 | -
@@ -170,11 +172,11 @@ namespace NonUnoPinata
                 {
                     if (stripping)
                     {
-                        holder.Map.designationManager.RemoveDesignation(designation);
+                        designator.Map.designationManager.RemoveDesignation(designation);
                     }
                     else
                     {
-                        holder.Map.designationManager.AddDesignation(new Designation(holder, DesignationDefOf.Strip));
+                        designator.Map.designationManager.AddDesignation(new Designation(holder, DesignationDefOf.Strip));
                     }
                 }
             }

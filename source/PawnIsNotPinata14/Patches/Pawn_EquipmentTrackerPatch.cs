@@ -36,18 +36,21 @@ namespace NonUnoPinata.Patches
             FieldInfo pawn = AccessTools.Field(typeof(Pawn_EquipmentTracker), nameof(Pawn_EquipmentTracker.pawn));
             MethodInfo dodrop = AccessTools.Method(typeof(Pawn_EquipmentTracker_Notify_PawnSpawned_NonUnoPinataPatch), nameof(Pawn_EquipmentTracker_Notify_PawnSpawned_NonUnoPinataPatch.doDrop));
 
+            bool b = false;
             foreach (var i in instructions)
             {
 
                 yield return i;
-                if (i.opcode == OpCodes.Beq_S)
+                if (i.opcode == OpCodes.Brtrue_S)
                 {
+                    b = true;
                     yield return new CodeInstruction(OpCodes.Ldarg_0);
                     yield return new CodeInstruction(OpCodes.Ldfld, pawn);
                     yield return new CodeInstruction(OpCodes.Call, dodrop);
                     yield return new CodeInstruction(OpCodes.Brfalse_S, i.operand);
                 }
             }
+            if (!b) Log.Error("Couldn't patch Pawn_EquipmentTracker.Notify_PawnSpawned");
         }
     }
 
