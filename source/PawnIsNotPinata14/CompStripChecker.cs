@@ -27,7 +27,7 @@ namespace NonUnoPinata
         static public CompStripChecker GetChecker(Thing thing, bool InitShouldStrip = false)
         {
 
-            if (!(thing is ThingWithComps) && !thing.GetType().IsSubclassOf(typeof(ThingWithComps)))
+            if (thing == null || !(thing is ThingWithComps) && !thing.GetType().IsSubclassOf(typeof(ThingWithComps)))
                 return null;
             ThingWithComps TWC = (ThingWithComps)thing;
             if (TWC.AllComps == null)

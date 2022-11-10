@@ -26,9 +26,11 @@ namespace NonUnoPinata
         Untainted = 16,
         Unburnable = 32
     }
-
+    [StaticConstructorOnStartup]
     public static class NUPUtility
     {
+        public static readonly Texture2D texStripThing = ContentFinder<Texture2D>.Get("UI/Icons/Strip_Thing");
+        public static readonly Texture2D texStripThingCancel = ContentFinder<Texture2D>.Get("UI/Icons/Strip_Thing_Cancel");
         public static void DropUnmarkableNearPawn(Pawn_InventoryTracker inventory, IntVec3 pos, bool forbid = false, bool unforbid = false)
         {
             if (inventory.pawn.MapHeld == null)

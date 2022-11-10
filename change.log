@@ -1,3 +1,7 @@
+1.1.15
+- cached all (two) textures;
+- RPGInventory (revamped) integrity;
+
 1.1.14
 - fixed error trying to mark items to be stripped on a pawn/corpse being hauled;
 - fixed pawns dropping items when put to bed;
