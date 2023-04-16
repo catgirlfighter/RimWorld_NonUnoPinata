@@ -14,28 +14,24 @@ namespace NonUnoPinata.Patches
     {
         static bool doStripCorpse(RecipeDef def, Thing thing)
         {
-            if (!def.autoStripCorpses)
-            {
-                IStrippable strippable = thing as IStrippable;
-                Corpse corpse = thing as Corpse;
-                Pawn pawn;
-                if (corpse == null)
-                    pawn = thing as Pawn;
-                else
-                    pawn = corpse.InnerPawn;
-
-                StripFlags val = StripFlags.None;
-                if (pawn != null)
-                {
-                    val = Settings.getStripFlags();
-                    if (!CompStripChecker.MarkAll(pawn, true, val))
-                        val = StripFlags.None;
-                }
-
-                return strippable != null && thing.MapHeld != null && (val != StripFlags.None || thing.MapHeld.designationManager.DesignationOn(thing, DesignationDefOf.Strip) != null);
-            }
-            else
+            if (def.autoStripCorpses && !Settings.strip_against_autoStripCorpses)
                 return true;
+
+            Pawn pawn;
+            if (thing is Corpse corpse)
+                pawn = corpse.InnerPawn; 
+            else
+                pawn = thing as Pawn;
+
+            StripFlags val = StripFlags.None;
+            if (pawn != null)
+            {
+                val = Settings.getStripFlags(def.autoStripCorpses);
+                if (!CompStripChecker.MarkAll(pawn, true, val))
+                    val = StripFlags.None;
+            }
+
+            return thing is IStrippable && thing.MapHeld != null && (val != StripFlags.None || thing.MapHeld.designationManager.DesignationOn(thing, DesignationDefOf.Strip) != null);
         }
 
         internal static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator il, MethodBase mb)

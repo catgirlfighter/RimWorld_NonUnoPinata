@@ -21,17 +21,36 @@ namespace NonUnoPinata
         public static bool nonplayer_killed_drop_inventory = false;
         public static bool corpse_display_equipment = false;
         public static bool allow_cremate_nonburnable = false;
+        public static bool strip_against_autoStripCorpses = false;
+        public static bool strip_apparel_b = true;
+        public static bool strip_untainted_b = false;
+        public static bool strip_equipment_b = true;
+        public static bool strip_smeltable_b = false;
+        public static bool strip_inventory_b = true;
+        public static bool allow_cremate_nonburnable_b = false;
 
-        public static StripFlags getStripFlags()
+        public static StripFlags getStripFlags(bool autoStripCorpses)
         {
             StripFlags flags = StripFlags.None;
-            if (strip_apparel) flags |= StripFlags.Apparel;
-            if (strip_equipment) flags |= StripFlags.Equipment;
-            if (strip_inventory) flags |= StripFlags.Inventory;
-            if (strip_smeltable) flags |= StripFlags.Smeltable;
-            if (strip_untainted) flags |= StripFlags.Untainted;
-            if (!allow_cremate_nonburnable) flags |= StripFlags.Unburnable;
 
+            if (autoStripCorpses)
+            {
+                if (strip_apparel_b) flags |= StripFlags.Apparel;
+                if (strip_equipment_b) flags |= StripFlags.Equipment;
+                if (strip_inventory_b) flags |= StripFlags.Inventory;
+                if (strip_smeltable_b) flags |= StripFlags.Smeltable;
+                if (strip_untainted_b) flags |= StripFlags.Untainted;
+                if (!allow_cremate_nonburnable_b) flags |= StripFlags.Unburnable;
+            }
+            else
+            {
+                if (strip_apparel) flags |= StripFlags.Apparel;
+                if (strip_equipment) flags |= StripFlags.Equipment;
+                if (strip_inventory) flags |= StripFlags.Inventory;
+                if (strip_smeltable) flags |= StripFlags.Smeltable;
+                if (strip_untainted) flags |= StripFlags.Untainted;
+                if (!allow_cremate_nonburnable) flags |= StripFlags.Unburnable;
+            }
             return flags;
         }
 
@@ -49,6 +68,20 @@ namespace NonUnoPinata
             listing_Standard.CheckboxLabeled("strip_equipment".Translate(), ref strip_equipment, "");
             listing_Standard.CheckboxLabeled("strip_smeltable".Translate(), ref strip_smeltable, "");
             listing_Standard.CheckboxLabeled("strip_inventory".Translate(), ref strip_inventory, "");
+
+            listing_Standard.GapLine();
+            listing_Standard.CheckboxLabeled("butchered".Translate(), ref strip_against_autoStripCorpses, "");
+            if (strip_against_autoStripCorpses)
+            {
+                listing_Standard.Label("strip_designated".Translate());
+                listing_Standard.CheckboxLabeled("allow_cremate_nonburnable".Translate(), ref allow_cremate_nonburnable_b, "");
+                listing_Standard.CheckboxLabeled("strip_apparel".Translate(), ref strip_apparel_b, "");
+                if (strip_apparel_b)
+                    listing_Standard.CheckboxLabeled("strip_untainted".Translate(), ref strip_untainted_b, "");
+                listing_Standard.CheckboxLabeled("strip_equipment".Translate(), ref strip_equipment_b, "");
+                listing_Standard.CheckboxLabeled("strip_smeltable".Translate(), ref strip_smeltable_b, "");
+                listing_Standard.CheckboxLabeled("strip_inventory".Translate(), ref strip_inventory_b, "");
+            }
 
             listing_Standard.GapLine();
             listing_Standard.Label("downed".Translate());

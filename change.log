@@ -1,3 +1,6 @@
+1.1.16
+- made it possible to use strip rules for butchering (didn't want to, but whatever);
+
 1.1.15
 - cached all (two) textures;
 - RPGInventory (revamped) integrity;
