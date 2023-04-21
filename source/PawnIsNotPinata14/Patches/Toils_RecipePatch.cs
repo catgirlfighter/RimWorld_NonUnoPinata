@@ -14,7 +14,7 @@ namespace NonUnoPinata.Patches
     {
         static bool doStripCorpse(RecipeDef def, Thing thing)
         {
-            if (def.autoStripCorpses && !Settings.strip_against_autoStripCorpses)
+            if (def.autoStripCorpses && !Settings.strip_despite_autoStripCorpses)
                 return true;
 
             Pawn pawn;
@@ -26,7 +26,7 @@ namespace NonUnoPinata.Patches
             StripFlags val = StripFlags.None;
             if (pawn != null)
             {
-                val = Settings.getStripFlags(def.autoStripCorpses);
+                val = Settings.GetStripFlags(def.autoStripCorpses);
                 if (!CompStripChecker.MarkAll(pawn, true, val))
                     val = StripFlags.None;
             }

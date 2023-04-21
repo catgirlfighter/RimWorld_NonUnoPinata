@@ -1,3 +1,6 @@
+1.1.17
+- minor fix for new option, it didn't save between sessions;
+
 1.1.16
 - made it possible to use strip rules for butchering (didn't want to, but whatever);
 

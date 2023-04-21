@@ -21,7 +21,7 @@ namespace NonUnoPinata
         public static bool nonplayer_killed_drop_inventory = false;
         public static bool corpse_display_equipment = false;
         public static bool allow_cremate_nonburnable = false;
-        public static bool strip_against_autoStripCorpses = false;
+        public static bool strip_despite_autoStripCorpses = false;
         public static bool strip_apparel_b = true;
         public static bool strip_untainted_b = false;
         public static bool strip_equipment_b = true;
@@ -29,7 +29,7 @@ namespace NonUnoPinata
         public static bool strip_inventory_b = true;
         public static bool allow_cremate_nonburnable_b = false;
 
-        public static StripFlags getStripFlags(bool autoStripCorpses)
+        public static StripFlags GetStripFlags(bool autoStripCorpses)
         {
             StripFlags flags = StripFlags.None;
 
@@ -70,8 +70,8 @@ namespace NonUnoPinata
             listing_Standard.CheckboxLabeled("strip_inventory".Translate(), ref strip_inventory, "");
 
             listing_Standard.GapLine();
-            listing_Standard.CheckboxLabeled("butchered".Translate(), ref strip_against_autoStripCorpses, "");
-            if (strip_against_autoStripCorpses)
+            listing_Standard.CheckboxLabeled("butchered".Translate(), ref strip_despite_autoStripCorpses, "");
+            if (strip_despite_autoStripCorpses)
             {
                 listing_Standard.Label("strip_designated".Translate());
                 listing_Standard.CheckboxLabeled("allow_cremate_nonburnable".Translate(), ref allow_cremate_nonburnable_b, "");
@@ -97,8 +97,6 @@ namespace NonUnoPinata
             listing_Standard.CheckboxLabeled("nonplayer_killed_drop_equipment".Translate(), ref nonplayer_killed_drop_equipment, "");
             listing_Standard.CheckboxLabeled("nonplayer_killed_drop_inventory".Translate(), ref nonplayer_killed_drop_inventory, "");
             
-
-
             listing_Standard.End();
         }
 
@@ -122,6 +120,14 @@ namespace NonUnoPinata
             Scribe_Values.Look(ref player_killed_drop_inventory, "player_killed_drop_inventory", false, false);
             Scribe_Values.Look(ref nonplayer_killed_drop_equipment, "nonplayer_killed_drop_equipment", false, false);
             Scribe_Values.Look(ref nonplayer_killed_drop_inventory, "nonplayer_killed_drop_inventory", false, false);
+
+            Scribe_Values.Look(ref strip_despite_autoStripCorpses, "strip_despite_autoStripCorpses", false, false);
+            Scribe_Values.Look(ref strip_apparel_b, "strip_apparel_b", true, false);
+            Scribe_Values.Look(ref strip_equipment_b, "strip_equipment_b", true, false);
+            Scribe_Values.Look(ref strip_inventory_b, "strip_inventory_b", true, false);
+            Scribe_Values.Look(ref strip_smeltable_b, "strip_smeltable_b", false, false);
+            Scribe_Values.Look(ref strip_untainted_b, "strip_untainted_b", false, false);
+            Scribe_Values.Look(ref allow_cremate_nonburnable_b, "allow_cremate_nonburnable_b", false, false);
         }
     }
 }
