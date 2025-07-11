@@ -1,3 +1,9 @@
+1.3.0
+- 1.6
+
+other
+- added load order suggetion for Hospitality mod.
+
 1.2.0
 - new game version. New patch;
 - temporarily removed held weapons from corpses because rendering engine was changed drastically and I have no idea how to adapt to that change for now;
