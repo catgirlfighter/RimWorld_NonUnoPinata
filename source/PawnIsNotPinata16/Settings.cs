@@ -28,6 +28,7 @@ namespace NonUnoPinata
         public static bool strip_smeltable_b = false;
         public static bool strip_inventory_b = true;
         public static bool allow_cremate_nonburnable_b = false;
+        private static Vector2 ScrollPos = Vector2.zero;
 
         public static StripFlags GetStripFlags(bool autoStripCorpses)
         {
@@ -56,8 +57,14 @@ namespace NonUnoPinata
 
         public static void DoSettingsWindowContents(Rect inRect)
         {
+            int rowCount = 30;
+            Rect viewRect = new Rect(0f, 0f, inRect.width, rowCount * 26f);
+            viewRect.xMax *= 0.9f;
             Listing_Standard listing_Standard = new Listing_Standard();
-            listing_Standard.Begin(inRect);
+            listing_Standard.Begin(viewRect);
+            GUI.EndGroup();
+            Widgets.BeginScrollView(inRect, ref ScrollPos, viewRect);
+            //
             listing_Standard.CheckboxLabeled("corpse_display_equipment".Translate(), ref corpse_display_equipment, "");
             listing_Standard.Label("cremated".Translate());
             listing_Standard.Label("strip_designated".Translate());
@@ -96,8 +103,7 @@ namespace NonUnoPinata
             listing_Standard.CheckboxLabeled("player_killed_drop_inventory".Translate(), ref player_killed_drop_inventory, "");
             listing_Standard.CheckboxLabeled("nonplayer_killed_drop_equipment".Translate(), ref nonplayer_killed_drop_equipment, "");
             listing_Standard.CheckboxLabeled("nonplayer_killed_drop_inventory".Translate(), ref nonplayer_killed_drop_inventory, "");
-            
-            listing_Standard.End();
+            Widgets.EndScrollView();
         }
 
         public override void ExposeData()
