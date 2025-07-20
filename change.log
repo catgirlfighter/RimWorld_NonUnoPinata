@@ -1,3 +1,6 @@
+1.3.2
+- reluctanly updated dll for 1.5 (to account for 1.3.1 changes);
+
 1.3.1
 - added a scrollbar to settings window. I just kinda forgot that you have to add it manually if options get out of... screen...
 
