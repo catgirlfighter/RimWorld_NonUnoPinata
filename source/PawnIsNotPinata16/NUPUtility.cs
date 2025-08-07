@@ -33,11 +33,11 @@ namespace NonUnoPinata
         public static readonly Texture2D texStripThingCancel = ContentFinder<Texture2D>.Get("UI/Icons/Strip_Thing_Cancel");
         public static void DropUnmarkableNearPawn(Pawn_InventoryTracker inventory, IntVec3 pos, bool forbid = false, bool unforbid = false)
         {
-            if (inventory.pawn.MapHeld == null)
-            {
-                Log.Error("Tried to drop all inventory near pawn but the pawn is unspawned. pawn=" + inventory.pawn);
-                return;
-            }
+            //if (inventory.pawn.MapHeld == null)
+            //{
+            //    Log.Error("Tried to drop all inventory near pawn but the pawn is unspawned. pawn=" + inventory.pawn);
+            //    return;
+            //}
             List<Thing> tmpThingList = new List<Thing>();
             tmpThingList.AddRange(inventory.innerContainer);
             for (int i = 0; i < tmpThingList.Count; i++)
@@ -91,16 +91,17 @@ namespace NonUnoPinata
                 pawn.equipment.DropAllEquipment(pawn.PositionHeld, true, rememberPrimary);
             }
             //
-            if (pawn.inventory != null && pawn.inventory.innerContainer.TotalStackCount > 0
+            if (pawn.inventory != null)
+                if (pawn.inventory.innerContainer.TotalStackCount > 0
                 && (pawn.IsColonistPlayerControlled && (IsAKill && Settings.player_killed_drop_inventory || !IsAKill && Settings.player_downed_drop_inventory)
                 || !pawn.IsColonistPlayerControlled && (IsAKill && Settings.nonplayer_killed_drop_inventory || !IsAKill && Settings.nonplayer_downed_drop_inventory)))
-            {
-                pawn.inventory.DropAllNearPawn(pawn.PositionHeld, true, false);
-            }
-            else
-            {
-                DropUnmarkableNearPawn(pawn.inventory, pawn.PositionHeld, true, false);
-            }
+                {
+                    pawn.inventory.DropAllNearPawn(pawn.PositionHeld, true, false);
+                }
+                else
+                {
+                    DropUnmarkableNearPawn(pawn.inventory, pawn.PositionHeld, true, false);
+                }
         }
 
         static readonly Color hColor = new Color(1f, 0.8f, 0.8f, 1f);
